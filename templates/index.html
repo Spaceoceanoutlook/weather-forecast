@@ -24,8 +24,8 @@
             margin-top: 20px;
         }
         input {
-            width: 100%;
-            height: 25px;
+            width: 220px;
+            height: 23px;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
@@ -34,7 +34,7 @@
         }
 
         button {
-            padding: 10px 20px;
+            padding: 15px 20px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -47,6 +47,7 @@
         }
         table {
             width: 100%;
+            text-align: center;
             margin-bottom: 20px;
             border: 15px solid #F2F8F8;
             border-top: 5px solid #F2F8F8;
@@ -69,10 +70,15 @@
 <body>
     <div class="container">
         <form action="/" method="post">
-            <input type="text" name="user_city" size="20" placeholder="Введите название города" required>
+            <input type="text" name="user_city" placeholder="Введите название города" required>
             <button type="submit">Отправить</button>
         </form>
-        {{ error }} <br>
+        <h1>{{city}}</h1>
+        <h2>{{ error }}</h2>
+        {% if time %}
+        <h3>Прогноз погоды на {{time}}</h3>
+        {% endif %}
+        {% if forecast %}
         <table>
             <tr>
                 <th>Время</th>
@@ -80,13 +86,13 @@
                 <td>{{ i[0] }}</td>
                 {% endfor %}
             </tr>
-            <tr><th>Температура воздуха</th>
+            <tr><th>Температура воздуха °C</th>
                 {% for i in forecast %}
                 <td>{{ i[1] }}</td>
                 {% endfor %}
             </tr>
-
         </table>
+        {% endif %}
     </div>
 </body>
 </html>

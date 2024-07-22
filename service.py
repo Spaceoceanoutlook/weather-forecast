@@ -2,10 +2,15 @@ import requests
 import openmeteo_requests
 import requests_cache
 from retry_requests import retry
+import datetime
 
 
-def get_coord(user_name: str) -> dict | str:
-    params = {"name": user_name,
+def get_time() -> str:
+    return datetime.datetime.now().strftime("%d %B %Y")
+
+
+def get_coord(user_city: str) -> dict | str:
+    params = {"name": user_city,
               "language": "ru",
               "format": "json",
               "count": 1,
@@ -15,7 +20,7 @@ def get_coord(user_name: str) -> dict | str:
     try:
         coord = response.json()["results"][0]
     except KeyError:
-        return "Нет информации о погоде об этом городе"
+        return f'Нет информации о погоде в городе "{user_city}"'
     return {"latitude": coord["latitude"], "longitude": coord["longitude"]}
 
 
@@ -42,7 +47,3 @@ def get_temperature(city: str) -> list | str:
         data = (f"{c}-00", round(t))
         time_and_temp.append(data)
     return time_and_temp
-
-
-if __name__ == "__main__":
-    print(get_temperature("Пермь"))
