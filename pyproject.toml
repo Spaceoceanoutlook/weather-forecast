@@ -9,7 +9,10 @@ readme = "README.md"
 python = "^3.12"
 requests = "^2.32.3"
 flask = "^3.0.3"
-python-dotenv = "^1.0.1"
+openmeteo-requests = "^1.2.0"
+requests-cache = "^1.2.1"
+retry-requests = "^2.0.0"
+numpy = "^2.0.1"
 
 
 [build-system]

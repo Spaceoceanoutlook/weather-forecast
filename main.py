@@ -7,9 +7,11 @@ app = Flask(__name__)
 @app.route("/", methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        data = request.form['user_city']
-        temp = get_temperature(city_name=data)
-        return render_template("index.html", temp=temp)
+        city = request.form['user_city']
+        forecast = get_temperature(city=city)
+        if isinstance(forecast, str):
+            return render_template("index.html", error=forecast)
+        return render_template("index.html", forecast=forecast)
     return render_template("index.html")
 
 
