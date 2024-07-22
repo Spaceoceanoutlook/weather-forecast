@@ -39,7 +39,7 @@ def get_temperature(city: str) -> tuple | str:
     params = {
         "latitude": coord["latitude"],
         "longitude": coord["longitude"],
-        "hourly": ["temperature_2m"],
+        "hourly": ["temperature_2m", "precipitation_probability"],
         "forecast_days": 1
     }
     responses = open_meteo.weather_api(url, params=params)
@@ -48,7 +48,9 @@ def get_temperature(city: str) -> tuple | str:
     time_and_temp = []
     country = coord["country"]
     population = coord["population"]
-    for c, t in enumerate(hourly.Variables(0).ValuesAsNumpy()):
-        data = (f"{c}-00", round(t))
+    hourly_precipitation_probability = hourly.Variables(1).ValuesAsNumpy()
+    hourly_temperature_2m = hourly.Variables(0).ValuesAsNumpy()
+    for index, (value1, value2) in enumerate(zip(hourly_temperature_2m, hourly_precipitation_probability)):
+        data = (f"{index}-00", round(value1), int(value2))
         time_and_temp.append(data)
     return time_and_temp, country, population

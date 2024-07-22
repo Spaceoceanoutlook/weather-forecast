@@ -95,6 +95,11 @@
                 <td>{{ i[1] }}</td>
                 {% endfor %}
             </tr>
+            <tr><th>Вероятность осадков %</th>
+                {% for i in forecast %}
+                <td>{{ i[2] }}</td>
+                {% endfor %}
+            </tr>
         </table>
         {% endif %}
     </div>
