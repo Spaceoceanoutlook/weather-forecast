@@ -11,7 +11,10 @@ def index():
         if isinstance(get_temperature(city=city), str):
             return render_template("index.html", error=get_temperature(city=city))
         forecast, country, population = get_temperature(city=city)
-        population = f"{population: _}".replace("_", " ")
+        if population:
+            population = f"{population: _}".replace("_", " ")
+        else:
+            population = "Нет данных"
         context = {"country": country.capitalize(), "population": population,
                    "time": get_time(), "city": city.capitalize()}
         return render_template("index.html", forecast=forecast, **context)

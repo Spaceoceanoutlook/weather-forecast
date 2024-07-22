@@ -24,7 +24,7 @@ def get_coord(user_city: str) -> dict | str:
     return {"latitude": coord["latitude"],
             "longitude": coord["longitude"],
             "country": coord["country"],
-            "population": coord["population"]}
+            "population": coord.get("population")}
 
 
 def get_temperature(city: str) -> tuple | str:
