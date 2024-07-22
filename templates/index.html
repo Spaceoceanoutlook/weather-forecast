@@ -73,12 +73,16 @@
             <input type="text" name="user_city" placeholder="Введите название города" required>
             <button type="submit">Отправить</button>
         </form>
-        <h1>{{city}}</h1>
+        {% if population %}
+        <h1>{{city}}, {{ country }}</h1>
+        <h3>Население {{ population }}</h3>
+        {% endif %}
         <h2>{{ error }}</h2>
         {% if time %}
         <h3>Прогноз погоды на {{time}}</h3>
         {% endif %}
         {% if forecast %}
+
         <table>
             <tr>
                 <th>Время</th>

@@ -21,10 +21,13 @@ def get_coord(user_city: str) -> dict | str:
         coord = response.json()["results"][0]
     except KeyError:
         return f'Нет информации о погоде в городе "{user_city}"'
-    return {"latitude": coord["latitude"], "longitude": coord["longitude"]}
+    return {"latitude": coord["latitude"],
+            "longitude": coord["longitude"],
+            "country": coord["country"],
+            "population": coord["population"]}
 
 
-def get_temperature(city: str) -> list | str:
+def get_temperature(city: str) -> tuple | str:
     cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
     retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
     open_meteo = openmeteo_requests.Client(session=retry_session)
@@ -43,7 +46,9 @@ def get_temperature(city: str) -> list | str:
     response = responses[0]
     hourly = response.Hourly()
     time_and_temp = []
+    country = coord["country"]
+    population = coord["population"]
     for c, t in enumerate(hourly.Variables(0).ValuesAsNumpy()):
         data = (f"{c}-00", round(t))
         time_and_temp.append(data)
-    return time_and_temp
+    return time_and_temp, country, population

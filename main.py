@@ -8,10 +8,12 @@ app = Flask(__name__)
 def index():
     if request.method == 'POST':
         city = request.form['user_city']
-        forecast = get_temperature(city=city)
+        forecast, country, population = get_temperature(city=city)
+        population = f"{population: _}".replace("_", " ")
+        context = {"country": country, "population": population, "time": get_time(), "city": city, "forecast": forecast}
         if isinstance(forecast, str):
-            return render_template("index.html", error=forecast, time=get_time(), city=city)
-        return render_template("index.html", forecast=forecast, time=get_time(), city=city)
+            return render_template("index.html", **context)
+        return render_template("index.html", **context)
     return render_template("index.html")
 
 
